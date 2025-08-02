@@ -5,6 +5,12 @@ from flask import Flask, render_template, g, url_for, redirect, request, flash, 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
+@app.before_request
+def safari_only():
+    ua = request.headers.get('User-Agent', '')
+    if not ('Safari' in ua and 'Chrome' not in ua and 'Chromium' not in ua):
+        return '이 페이지는 현재 네트워크 환경에서 지원되지 않습니다. (ERR-42)', 403
+
 데이터베이스 = os.path.join(os.path.dirname(__file__), 'instance', 'shopping.db')
 
 def 데이터베이스_가져오기():
