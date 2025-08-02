@@ -16,7 +16,7 @@
     <form method="post" class="item-edit-form" id="item-edit-form">
         <div class="form-row">
             <label for="품목코드">품목코드</label>
-            <input type="number" id="품목코드" name="품목코드" value="{{ 구매['품목코드'] }}">
+            <input type="number" id="품목코드" name="품목코드" value="{{ 구매['품목코드'] }}" inputmode="numeric">
         </div>
         <div class="form-row">
             <label for="품목명">품목명</label>
@@ -28,19 +28,19 @@
         </div>
         <div class="form-row">
             <label for="가격">가격</label>
-            <input type="number" id="가격" name="가격" value="{{ 구매['가격'] }}" min="0" step="1">
+            <input type="number" id="가격" name="가격" value="{{ 구매['가격'] }}" min="0" step="1" inputmode="numeric">
         </div>
         <div class="form-row">
             <label for="할인금액">할인금액</label>
-            <input type="number" id="할인금액" name="할인금액" value="{{ 구매['할인금액'] }}" min="0" step="1">
+            <input type="number" id="할인금액" name="할인금액" value="{{ 구매['할인금액'] }}" min="0" step="1" inputmode="numeric">
         </div>
         <div class="form-row">
             <label for="수량">수량</label>
-            <input type="number" id="수량" name="수량" value="{{ 구매['수량'] }}" min="1" step="1">
+            <input type="number" id="수량" name="수량" value="{{ 구매['수량'] }}" min="1" step="1" inputmode="numeric">
         </div>
         <div class="form-row">
             <label for="구매금액">구매금액</label>
-            <input type="number" id="구매금액" name="구매금액" value="{{ 구매['구매금액'] }}" min="0" step="1" readonly>
+            <input type="number" id="구매금액" name="구매금액" value="{{ 구매['구매금액'] }}" min="0" step="1" readonly inputmode="numeric">
         </div>
         <div class="form-row">
             <label for="구매자">구매자</label>
