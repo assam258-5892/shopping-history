@@ -28,7 +28,9 @@
 
 {% block footer %}
     <div class="footer-flex">
-        <span></span>
+        <span class="footer-sum">
+            연간 합계: {{ '{:,}'.format(합계['연간합계']|default(0)) }}원
+        </span>
         <span class="footer-add" onclick="location.href='/purchase/select'">구매목록추가</span>
     </div>
 {% endblock %}

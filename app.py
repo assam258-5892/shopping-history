@@ -34,14 +34,23 @@ def 날짜_매장_선택():
 
 @app.route('/purchase')
 def 구매일자_목록():
-    구매목록들 = 데이터베이스_가져오기().execute('''
+    디비 = 데이터베이스_가져오기()
+    구매목록들 = 디비.execute('''
         SELECT 구매일자, 매장명, 매장.번호 as 매장번호, SUM(구매금액) as 합계금액
           FROM 구매기록
           JOIN 매장 ON 구매기록.매장번호 = 매장.번호
          GROUP BY 구매일자, 매장명
          ORDER BY 구매일자 DESC, 매장명
     ''').fetchall()
-    return render_template('purchase/index.html', 구매목록들=구매목록들)
+    오늘 = datetime.date.today()
+    일년전 = 오늘 - datetime.timedelta(days=365)
+    합계 = 디비.execute(
+        'SELECT SUM(구매금액) as 연간합계 FROM 구매기록 WHERE 구매일자 >= ? AND 구매일자 <= ?',
+        (일년전.isoformat(), 오늘.isoformat())
+    ).fetchone()
+    if 합계 is None:
+        합계 = {'연간합계': 0}
+    return render_template('purchase/index.html', 구매목록들=구매목록들, 합계=합계)
 
 @app.route('/purchase/list/<date>/<int:store_code>')
 def 구매일자별_매장별_구매목록(date, store_code):
