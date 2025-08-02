@@ -112,15 +112,34 @@ def 품목_상세_수정(date, store_code, item_id):
     return render_template('purchase/item.html', 구매=구매, 구매자목록=구매자목록)
 
 @app.route('/price')
-def 가격추이():
-    커서 = 데이터베이스_가져오기().execute('''
-        SELECT 품목.품목명, 구매기록.구매일자, 구매기록.가격, 구매기록.할인금액, 구매기록.구매금액
+def 가격정보():
+    가격정보 = 데이터베이스_가져오기().execute('''
+        SELECT 코드,
+               품목명,
+               MAX(구매기록.구매일자) as 최신구매일자,
+               MAX(구매기록.일련번호) as 최신일련번호,
+               MIN(구매기록.구매금액) as 최소가격,
+               MAX(구매기록.구매금액) as 최대가격
+          FROM 품목
+          LEFT JOIN 구매기록 ON 품목코드 = 코드
+         GROUP BY 품목명
+         ORDER BY 최신구매일자 DESC NULLS LAST, 최신일련번호 DESC NULLS LAST, 품목명
+    ''').fetchall()
+    return render_template('price/index.html', 가격정보=가격정보)
+
+@app.route('/price/<int:item_code>')
+def 가격정보_상세(item_code):
+    디비 = 데이터베이스_가져오기()
+    기록 = 디비.execute('''
+        SELECT 구매일자, 매장명, 가격 - 할인금액 AS 최종가격
           FROM 구매기록
-          JOIN 품목 ON 구매기록.품목코드 = 품목.코드
-         ORDER BY 품목.품목명, 구매기록.구매일자 DESC
-    ''')
-    가격기록 = 커서.fetchall()
-    return render_template('price/index.html', price_records=가격기록)
+          JOIN 품목 ON 품목코드 = 코드
+          JOIN 매장 ON 매장번호 = 번호
+         WHERE 코드 = ?
+         ORDER BY 구매일자 DESC, 일련번호 DESC
+    ''', (item_code,)).fetchall()
+    품목 = 디비.execute('SELECT 품목명 FROM 품목 WHERE 코드 = ?', (item_code,)).fetchone()
+    return render_template('price/detail.html', 품목=품목, 기록=기록)
 
 @app.route('/api/item-name/<int:code>')
 def 품목정보_API(code):

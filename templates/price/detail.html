@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ 품목명 }} 가격정보{% endblock %}
+
+{% block header %}
+    <h1 style="cursor:pointer" onclick="location.href='/price'">{{ 품목명 }} 가격정보</h1>
+{% endblock %}
+
+{% block main %}
+<div>
+    <table style="width:100%;border-collapse:collapse;">
+        {% for 항목 in 기록 %}
+            <tr>
+                <td style="padding:6px 4px;">{{ 항목['구매일자'] }}</td>
+                <td style="padding:6px 4px;">{{ 항목['매장명'] }}</td>
+                <td style="text-align:right;padding:6px 4px;">{{ 항목['최종가격']|int|default('-') }}원</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if not 기록 %}
+        <p style="text-align:center;color:#888;">구매기록이 없습니다.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

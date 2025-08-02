@@ -1,16 +1,22 @@
 {% extends "base.html" %}
-{% block title %}가격 추이{% endblock %}
+{% block title %}가격정보{% endblock %}
 
 {% block header %}
     <h1 style="cursor:pointer" onclick="location.href='/purchase'">가격정보</h1>
 {% endblock %}
 
 {% block main %}
+<div>
+    <table style="width:100%;border-collapse:collapse;">
+        {% for 가격 in 가격정보 %}
+            <tr style="cursor:pointer;" onclick="location.href='{{ url_for('가격정보_상세', item_code=가격['코드']) }}'">
+                <td style="padding:6px 4px;">{{ 가격['품목명'] }}</td>
+                <td style="text-align:right;padding:6px 4px;">{{ 가격['최소가격'] if 가격['최소가격'] is not none else '-' }}</td>
+                <td style="text-align:right;padding:6px 4px;">{{ 가격['최대가격'] if 가격['최대가격'] is not none else '-' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
 
-{% block footer %}
-    <div class="footer-flex">
-        <span></span>
-        <span class="footer-add" onclick="location.href='/new-item'">품목추가</span>
-    </div>
-{% endblock %}
+{% block footer %}{% endblock %}
