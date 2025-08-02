@@ -46,7 +46,7 @@ def 구매일자_목록():
 @app.route('/purchase/list/<date>/<int:store_code>')
 def 구매일자별_매장별_구매목록(date, store_code):
     구매목록 = 데이터베이스_가져오기().execute('''
-        SELECT 일련번호, 품목명, 구매금액
+        SELECT 일련번호, 품목명, 규격, 구매금액
           FROM 구매기록
           JOIN 품목 ON 품목코드 = 품목.코드
          WHERE 구매일자 = ? AND 매장번호 = ?
@@ -115,13 +115,14 @@ def 가격정보():
     가격정보 = 데이터베이스_가져오기().execute('''
         SELECT 코드,
                품목명,
+               규격,
                MAX(구매일자) as 최신구매일자,
                MAX(일련번호) as 최신일련번호,
                MIN(가격 - 할인금액) as 최소가격,
                MAX(가격 - 할인금액) as 최대가격
           FROM 품목
           LEFT JOIN 구매기록 ON 품목코드 = 코드
-         GROUP BY 품목명
+         GROUP BY 코드, 품목명, 규격
          ORDER BY 최신구매일자 DESC NULLS LAST, 최신일련번호 DESC NULLS LAST, 품목명
     ''').fetchall()
     return render_template('price/index.html', 가격정보=가격정보)
