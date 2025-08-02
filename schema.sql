@@ -43,3 +43,5 @@ CREATE TABLE 구매기록 (
     FOREIGN KEY (구매자번호) REFERENCES 구매(번호),
     FOREIGN KEY (매장번호) REFERENCES 매장(번호)
 );
+CREATE INDEX 인덱스_구매기록_구매일자_매장번호 ON 구매기록(구매일자, 매장번호);
+CREATE INDEX 인덱스_구매기록_품목코드_구매일자 ON 구매기록(품목코드, 구매일자);
