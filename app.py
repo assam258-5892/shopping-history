@@ -73,22 +73,21 @@ def 품목_상세_수정(date, store_code, item_id):
         수량 = request.form.get('수량', '').replace(',', '').strip()
         구매금액 = request.form.get('구매금액', '').replace(',', '').strip()
         구매자번호 = request.form.get('구매자', '').strip()
+        디비.execute('''
+            INSERT INTO 품목 (코드, 품목명, 규격) VALUES (?, ?, ?) ON CONFLICT(코드) DO UPDATE SET 품목명=excluded.품목명, 규격=excluded.규격
+        ''', (int(품목코드), 품목명, 규격))
+        디비.commit()
         if 품목코드 and 품목명 and 구매금액.isdigit() and 가격.isdigit() and 할인금액.isdigit() and 수량.isdigit():
             if item_id == 0:
-                # 신규 INSERT
                 디비.execute('''
                     INSERT INTO 구매기록 (구매일자, 매장번호, 품목코드, 가격, 할인금액, 수량, 구매금액, 구매자번호)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (date, store_code, int(품목코드), int(가격), int(할인금액), int(수량), int(구매금액), int(구매자번호) if 구매자번호 else None))
                 디비.commit()
             else:
-                # 기존 UPDATE
                 디비.execute('''
                     UPDATE 구매기록 SET 품목코드 = ?, 가격 = ?, 할인금액 = ?, 수량 = ?, 구매금액 = ?, 구매자번호 = ? WHERE 일련번호 = ?
                 ''', (int(품목코드), int(가격), int(할인금액), int(수량), int(구매금액), int(구매자번호) if 구매자번호 else None, item_id))
-                디비.execute('''
-                    UPDATE 품목 SET 품목명 = ?, 규격 = ? WHERE 코드 = ?
-                ''', (품목명, 규격, int(품목코드)))
                 디비.commit()
         return redirect(url_for('구매일자별_매장별_구매목록', date=date, store_code=store_code))
     if item_id == 0:
