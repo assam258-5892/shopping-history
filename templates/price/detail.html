@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}{{ 품목명 }} 가격정보{% endblock %}
+{% block title %}{{ 품목['품목명'] }}{% endblock %}
 
 {% block header %}
-    <h1 style="cursor:pointer" onclick="location.href='/price'">{{ 품목명 }} 가격정보</h1>
+    <h1 style="cursor:pointer" onclick="location.href='/price'">{{ 품목['품목명'] }}</h1>
 {% endblock %}
 
 {% block main %}
@@ -22,4 +22,10 @@
 </div>
 {% endblock %}
 
-{% block footer %}{% endblock %}
+{% block footer %}
+<div style="display:flex; align-items:center; justify-content:center;">
+  {% if 품목['규격'] %}
+    <span style="color:#888; margin-left:0.5em;">({{ 품목['규격'] }})</span>
+  {% endif %}
+</div>
+{% endblock %}

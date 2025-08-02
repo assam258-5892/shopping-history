@@ -138,7 +138,7 @@ def 가격정보_상세(item_code):
          WHERE 코드 = ?
          ORDER BY 구매일자 DESC, 일련번호 DESC
     ''', (item_code,)).fetchall()
-    품목 = 디비.execute('SELECT 품목명 FROM 품목 WHERE 코드 = ?', (item_code,)).fetchone()
+    품목 = 디비.execute('SELECT 품목명, 규격 FROM 품목 WHERE 코드 = ?', (item_code,)).fetchone()
     return render_template('price/detail.html', 품목=품목, 기록=기록)
 
 @app.route('/api/item-name/<int:code>')
