@@ -93,7 +93,7 @@ def 품목_상세_수정(date, store_code, item_id):
     if item_id == 0:
         매장 = 디비.execute('SELECT 매장명 FROM 매장 WHERE 번호 = ?', (store_code,)).fetchone()
         구매 = {
-            '품목코드': '', '품목명': '', '규격': '', '가격': '', '할인금액': '0', '수량': '1', '구매금액': '', '구매자번호': 1,
+            '품목코드': '', '품목명': '', '규격': '', '가격': 0, '할인금액': 0, '수량': 1, '구매금액': 0, '구매자번호': 1,
             '구매일자': date, '매장번호': store_code, '매장명': 매장['매장명'] if 매장 else ''
         }
     else:
@@ -143,11 +143,9 @@ def 가격정보_상세(item_code):
 @app.route('/api/item-name/<int:code>')
 def 품목정보_API(code):
     디비 = 데이터베이스_가져오기()
-    row = 디비.execute('SELECT 품목명, 규격 FROM 품목 WHERE 코드 = ?', (code,)).fetchone()
-    if row:
-        return jsonify({'품목명': row['품목명'], '규격': row['규격']})
-    else:
-        return jsonify({'품목명': None, '규격': None})
+    품목 = 디비.execute('SELECT 품목명, 규격 FROM 품목 WHERE 코드 = ?', (code,)).fetchone()
+    가격 = 디비.execute('SELECT 가격 FROM 구매기록 WHERE 품목코드 = ? ORDER BY 구매일자 DESC, 일련번호 DESC LIMIT 1', (str(code),)).fetchone()
+    return jsonify({'품목명': 품목['품목명'] if 품목 else None, '규격': 품목['규격'] if 품목 else None, '가격': 가격['가격'] if 가격 else None})
 
 if __name__ == '__main__':
     app.run(debug=True)

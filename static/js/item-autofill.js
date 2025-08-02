@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const 품목코드 = document.getElementById('품목코드');
     const 품목명 = document.getElementById('품목명');
     const 규격 = document.getElementById('규격');
+    const 가격 = document.getElementById('가격');
 
     // 직접 입력 시 faded 제거 (검은색)
     if (품목명) {
@@ -22,6 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    if (가격) {
+        가격.addEventListener('input', function() {
+            if (가격.value.trim()) {
+                가격.classList.remove('placeholder-faded');
+            } else {
+                가격.classList.add('placeholder-faded');
+            }
+        });
+    }
 
     품목코드.addEventListener('input', async function() {
         const code = 품목코드.value;
@@ -33,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 규격.value = '';
                 규격.placeholder = '필수 입력';
                 규격.classList.add('placeholder-faded');
+            }
+            if (가격) {
+                가격.value = '';
+                가격.placeholder = '';
+                가격.classList.remove('placeholder-faded');
             }
             return;
         }
@@ -60,6 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             // 기존 값은 그대로 둡니다.
                         }
                 }
+                if (가격) {
+                    if (data.가격 !== undefined && data.가격 !== null) {
+                        가격.value = data.가격 || '';
+                        가격.placeholder = '';
+                        가격.classList.remove('placeholder-faded');
+                        // 가격이 자동입력되면 input 이벤트를 강제로 발생시켜 구매금액 자동계산
+                        가격.dispatchEvent(new Event('input', { bubbles: true }));
+                    } else {
+                        가격.value = '';
+                        가격.placeholder = '가격 없음';
+                        가격.classList.add('placeholder-faded');
+                    }
+                }
             } else {
                 품목명.placeholder = '조회 오류';
                 품목명.classList.add('placeholder-faded');
@@ -67,6 +95,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         규격.placeholder = '조회 오류';
                         규격.classList.add('placeholder-faded');
                         // 기존 값은 그대로 둡니다.
+                }
+                if (가격) {
+                    가격.value = '';
+                    가격.placeholder = '조회 오류';
+                    가격.classList.add('placeholder-faded');
                 }
             }
         } catch {
@@ -76,6 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     규격.placeholder = '조회 오류';
                     규격.classList.add('placeholder-faded');
                     // 기존 값은 그대로 둡니다.
+            }
+            if (가격) {
+                가격.value = '';
+                가격.placeholder = '조회 오류';
+                가격.classList.add('placeholder-faded');
             }
         }
     });
