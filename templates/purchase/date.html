@@ -15,14 +15,14 @@
     {% if 구매목록 %}
     <div>
     {% for 구매 in 구매목록 %}
-        <div class="purchase-line">
-            <span class="item-name">
-                <a href="{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}" style="text-decoration:none;color:inherit;">
+        <a href="{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}" style="text-decoration:none;color:inherit;">
+            <div class="purchase-line">
+                <span class="item-name">
                     {{ 구매['품목명'] }}
-                </a>
-            </span>
-            <span class="item-price">{{ "{:,}".format(구매['구매금액']|int) }}원</span>
-        </div>
+                </span>
+                <span class="item-price">{{ "{:,}".format(구매['구매금액']|int) }}원</span>
+            </div>
+        </a>
     {% endfor %}
     </div>
     {% else %}
@@ -35,6 +35,6 @@
         <span class="footer-sum">
             합계: {{ '{:,}'.format(구매목록|sum(attribute='구매금액')|default(0)|int) }}원
         </span>
-        <span class="footer-add" onclick="location.href='/new-item'">품목추가</span>
+        <span class="footer-add" style="cursor:pointer;" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호, item_id=0) }}'">품목추가</span>
     </div>
 {% endblock %}

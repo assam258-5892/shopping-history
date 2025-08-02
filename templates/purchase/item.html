@@ -59,7 +59,9 @@
 
 {% block footer %}
     <div class="footer-flex">
-        <a href="#" class="footer-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) { document.getElementById('품목코드').value=''; document.getElementById('item-edit-form').submit(); } return false;">삭제</a>
+        {% if 구매['일련번호'] is defined %}
+        <a href="#" class="footer-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) { var f=document.getElementById('item-edit-form'); var d=document.createElement('input'); d.type='hidden'; d.name='delete'; d.value='1'; f.appendChild(d); f.submit(); } return false;">삭제</a>
+        {% endif %}
         <a href="#" class="footer-save" style="margin-left:auto;" onclick="document.getElementById('item-edit-form').submit(); return false;">저장</a>
         <script src="{{ url_for('static', filename='js/item-calc.js') }}"></script>
         <script src="{{ url_for('static', filename='js/item-autofill.js') }}"></script>

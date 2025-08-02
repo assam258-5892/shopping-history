@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}구매목록추가{% endblock %}
+
+{% block header %}
+    <h1 style="cursor:pointer" onclick="location.href='/purchase'">
+        구매목록추가
+    </h1>
+{% endblock %}
+
+{% block main %}
+    <form method="get" class="item-edit-form" id="item-edit-form">
+        <div class="form-row">
+            <label for="date">구매일자</label>
+            <input type="date" id="date" name="date" required value="{{ 오늘 }}" class="form-input">
+        </div>
+        <div class="form-row">
+            <label for="store_code">매장</label>
+            <select id="store_code" name="store_code">
+                {% if 매장목록 %}
+                    {% for 매장 in 매장목록 %}
+                        <option value="{{ 매장['번호'] }}" data-lat="{{ 매장['위도'] }}" data-lng="{{ 매장['경도'] }}">{{ 매장['매장명'] }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" selected>매장 없음</option>
+                {% endif %}
+            </select>
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <div class="footer-flex">
+        <span></span>
+        <span class="footer-add" onclick="
+          var d=document.getElementById('date').value;
+          var s=document.getElementById('store_code').value;
+          if(d && s) location.href='/purchase/list/'+d+'/'+s;
+          else alert('날짜와 매장을 선택하세요.');
+        ">구매목록</span>
+    </div>
+    <script src="{{ url_for('static', filename='js/select-nearest-store.js') }}"></script>
+{% endblock %}
