@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ 구매일자.split('-')[0] }}년 {{ 구매일자.split('-')[1]|int }}월 {{ 구매일자.split('-')[2]|int }}일
+    {% if 매장명 %} ({{ 매장명 }}){% endif %} 구매목록
+{% endblock %}
+
+{% block header %}
+    <h1 style="cursor:pointer" onclick="location.href='/purchase'">
+        {{ 구매일자.split('-')[0] }}년 {{ 구매일자.split('-')[1]|int }}월 {{ 구매일자.split('-')[2]|int }}일
+        {% if 매장명 %}<span style="color:#888;font-size:0.95em;">({{ 매장명 }})</span>{% endif %}
+    </h1>
+{% endblock %}
+    
+{% block main %}
+    {% if 구매목록 %}
+    <div>
+    {% for 구매 in 구매목록 %}
+        <div class="purchase-line">
+            <span class="item-name">
+                <a href="{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}" style="text-decoration:none;color:inherit;">
+                    {{ 구매['품목명'] }}
+                </a>
+            </span>
+            <span class="item-price">{{ "{:,}".format(구매['구매금액']|int) }}원</span>
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+        <p>구매 내역이 없습니다.</p>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <div class="footer-flex">
+        <span class="footer-sum">
+            합계: {{ '{:,}'.format(구매목록|sum(attribute='구매금액')|default(0)|int) }}원
+        </span>
+        <span class="footer-add" onclick="location.href='/new-item'">품목추가</span>
+    </div>
+{% endblock %}

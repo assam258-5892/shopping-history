@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ 구매['구매일자'].split('-')[0] }}년 {{ 구매['구매일자'].split('-')[1]|int }}월 {{ 구매['구매일자'].split('-')[2]|int }}일
+    {% if 구매['매장명'] %}({{ 구매['매장명'] }}){% endif %}
+{% endblock %}
+
+{% block header %}
+    <h1 style="cursor:pointer"
+        onclick="location.href='{{ url_for('구매일자별_매장별_구매목록', date=구매['구매일자'], store_code=구매['매장번호']) }}'">
+        {{ 구매['구매일자'].split('-')[0] }}년 {{ 구매['구매일자'].split('-')[1]|int }}월 {{ 구매['구매일자'].split('-')[2]|int }}일
+        {% if 구매['매장명'] %}<span style="color:#888;font-size:0.95em;">({{ 구매['매장명'] }})</span>{% endif %}
+    </h1>
+{% endblock %}
+
+{% block main %}
+    <form method="post" class="item-edit-form" id="item-edit-form">
+        <div class="form-row">
+            <label for="품목코드">품목코드</label>
+            <input type="number" id="품목코드" name="품목코드" value="{{ 구매['품목코드'] }}">
+        </div>
+        <div class="form-row">
+            <label for="품목명">품목명</label>
+            <input type="text" id="품목명" name="품목명" value="{{ 구매['품목명'] }}" class="{% if not 구매['품목명'] %}placeholder-faded{% endif %}">
+        </div>
+        <div class="form-row">
+            <label for="규격">규격</label>
+            <input type="text" id="규격" name="규격" value="{{ 구매['규격'] }}" class="{% if not 구매['규격'] %}placeholder-faded{% endif %}">
+        </div>
+        <div class="form-row">
+            <label for="가격">가격</label>
+            <input type="number" id="가격" name="가격" value="{{ 구매['가격'] }}" min="0" step="1">
+        </div>
+        <div class="form-row">
+            <label for="할인금액">할인금액</label>
+            <input type="number" id="할인금액" name="할인금액" value="{{ 구매['할인금액'] }}" min="0" step="1">
+        </div>
+        <div class="form-row">
+            <label for="수량">수량</label>
+            <input type="number" id="수량" name="수량" value="{{ 구매['수량'] }}" min="1" required>
+        </div>
+        <div class="form-row">
+            <label for="구매금액">구매금액</label>
+            <input type="number" id="구매금액" name="구매금액" value="{{ 구매['구매금액'] }}" required min="0" step="1" readonly>
+        </div>
+        <div class="form-row">
+            <label for="구매자">구매자</label>
+            <select id="구매자" name="구매자">
+                {% if 구매자목록 %}
+                    {% for 구매자 in 구매자목록 %}
+                        <option value="{{ 구매자['번호'] }}" {% if 구매['구매자명'] == 구매자['구매자명'] %}selected{% endif %}>{{ 구매자['구매자명'] }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" selected>구매자 없음</option>
+                {% endif %}
+            </select>
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <div class="footer-flex">
+        <a href="#" class="footer-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) { document.getElementById('품목코드').value=''; document.getElementById('item-edit-form').submit(); } return false;">삭제</a>
+        <a href="#" class="footer-save" style="margin-left:auto;" onclick="document.getElementById('item-edit-form').submit(); return false;">저장</a>
+        <script src="{{ url_for('static', filename='js/item-calc.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/item-autofill.js') }}"></script>
+    </div>
+{% endblock %}

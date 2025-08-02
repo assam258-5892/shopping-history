@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}구매목록{% endblock %}
+
+{% block header %}
+    <h1 style="cursor:pointer" onclick="location.href='/price'">구매목록</h1>
+{% endblock %}
+
+
+{% block main %}
+    {% if 구매목록들 %}
+    <div>
+    {% for 구매목록 in 구매목록들 %}
+        <div class="purchase-line">
+            <span class="item-name">
+                <a href="{{ url_for('구매일자별_매장별_구매목록', date=구매목록['구매일자'], store_code=구매목록['매장번호']) }}" style="text-decoration:none;color:inherit;">
+                    {{ 구매목록['구매일자'].split('-')[0] }}년 {{ 구매목록['구매일자'].split('-')[1]|int }}월 {{ 구매목록['구매일자'].split('-')[2]|int }}일
+                    <span class="list-store-inline">{{ 구매목록['매장명'] }}</span>
+                </a>
+            </span>
+            <span class="item-price">
+                {{ "{:,}".format(구매목록['합계금액']|int) }}원
+            </span>
+        </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <div class="footer-flex">
+        <span></span>
+        <span class="footer-add" onclick="location.href='/new-purchase'">구매목록추가</span>
+    </div>
+{% endblock %}
