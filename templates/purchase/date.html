@@ -13,21 +13,17 @@
     
 {% block main %}
     {% if 구매목록 %}
-    <div>
-    {% for 구매 in 구매목록 %}
-        <a href="{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}" style="text-decoration:none;color:inherit;">
-            <div class="purchase-line">
+        {% for 구매 in 구매목록 %}
+            <div class="purchase-line" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}'" >
                 <span class="item-name">
                     {{ 구매['품목명'] }}
-                    {% if 구매['규격'] %}<span class="item-spec" style="color:#888;font-size:0.95em;"> ({{ 구매['규격'] }})</span>{% endif %}
+                    {% if 구매['규격'] %}<span class="item-spec"> {{ 구매['규격'] }}</span>{% endif %}
                 </span>
                 <span class="item-price">{{ "{:,}".format(구매['구매금액']|int) }}원</span>
             </div>
-        </a>
-    {% endfor %}
-    </div>
+        {% endfor %}
     {% else %}
-        <p>구매 내역이 없습니다.</p>
+        <p class="no-item">구매 내역이 없습니다.</p>
     {% endif %}
 {% endblock %}
 

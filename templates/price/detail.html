@@ -6,20 +6,17 @@
 {% endblock %}
 
 {% block main %}
-<div>
-    <table style="width:100%;border-collapse:collapse;">
-        {% for 항목 in 기록 %}
-            <tr>
-                <td style="padding:6px 4px;">{{ 항목['구매일자'] }}</td>
-                <td style="padding:6px 4px;">{{ 항목['매장명'] }}</td>
-                <td style="text-align:right;padding:6px 4px;">{{ 항목['최종가격']|int|default('-') }}원</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% for 항목 in 기록 %}
+        <div class="purchase-line">
+            <span class="item-name">
+                {{ 항목['구매일자'] }} <span class="item-store">{{ 항목['매장명'] }}</span>
+            </span>
+            <span class="item-price">{{ 항목['최종가격']|int|default('-') }}원</span>
+        </div>
+    {% endfor %}
     {% if not 기록 %}
-        <p style="text-align:center;color:#888;">구매기록이 없습니다.</p>
+        <p class="no-item">구매기록이 없습니다.</p>
     {% endif %}
-</div>
 {% endblock %}
 
 {% block footer %}

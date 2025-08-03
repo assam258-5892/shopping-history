@@ -6,20 +6,21 @@
 {% endblock %}
 
 {% block main %}
-<div>
-    <table style="width:100%;border-collapse:collapse;">
-        {% for 가격 in 가격정보 %}
-            <tr style="cursor:pointer;" onclick="location.href='{{ url_for('가격정보_상세', item_code=가격['코드']) }}'">
-                <td style="padding:6px 4px;">
-                    {{ 가격['품목명'] }}
-                    {% if 가격['규격'] %}<span style="color:#888;font-size:0.95em;"> ({{ 가격['규격'] }})</span>{% endif %}
-                </td>
-                <td style="text-align:right;padding:6px 4px;">{{ 가격['최소가격'] if 가격['최소가격'] is not none else '-' }}</td>
-                <td style="text-align:right;padding:6px 4px;">{{ 가격['최대가격'] if 가격['최대가격'] is not none else '-' }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-</div>
+    {% for 가격 in 가격정보 %}
+        <div class="purchase-line clickable-item" onclick="location.href='{{ url_for('가격정보_상세', item_code=가격['코드']) }}'">
+            <span class="item-name">
+                {{ 가격['품목명'] }}
+                {% if 가격['규격'] %}<span class="item-spec"> {{ 가격['규격'] }}</span>{% endif %}
+            </span>
+            <span class="item-price">
+                {% if 가격['최소가격'] is not none and 가격['최대가격'] is not none and 가격['최소가격'] == 가격['최대가격'] %}
+                    {{ 가격['최소가격'] }}원
+                {% else %}
+                    {{ 가격['최소가격'] if 가격['최소가격'] is not none else '-' }}~{{ 가격['최대가격'] if 가격['최대가격'] is not none else '-' }}원
+                {% endif %}
+            </span>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block footer %}{% endblock %}

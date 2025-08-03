@@ -32,10 +32,13 @@ footer {
 }
 header h1 {
     font-size: 1.4em;
-    margin: 0;
+    margin: 0 8px;
     font-weight: 600;
     padding: 4px 0;
     line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 header h1 small {
     font-size: 1em;
@@ -81,15 +84,40 @@ main {
 .footer-faded {
     color: #888;
 }
-/* 위쪽은 정리 완료 */
-.delete-btn {
-    background: #ff4d4f;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 18px;
+.purchase-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.1em;
+}
+.purchase-line:last-child {
+    border-bottom: none;
+}
+.item-name {
+    flex: 1 1 auto;
+    margin-left: 8px;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.item-store, .item-spec {
+    color: #888;
     font-size: 1em;
-    cursor: pointer;
+    margin-left: 4px;
+}
+.item-price {
+    flex: 0 0 auto;
+    margin-right: 8px;
+    min-width: 80px;
+    text-align: right;
+    color: #222;
+    font-weight: 600;
+}
+.no-item {
+    margin-left: 8px;
 }
 .item-edit-form {
     max-width: 400px;
@@ -121,100 +149,6 @@ main {
     border: 1px solid #ccc;
     border-radius: 5px;
     background: #fff;
-}
-.save-btn {
-    background: #2d8cff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 18px;
-    font-size: 1em;
-    cursor: pointer;
-    margin-right: 10px;
-}
-.cancel-btn {
-    background: #eee;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 18px;
-    font-size: 1em;
-    text-decoration: none;
-    cursor: pointer;
-}
-.purchase-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 1.2em;
-}
-.purchase-line .item-name {
-    flex: 1 1 auto;
-    margin-right: 12px;
-    word-break: break-all;
-}
-.purchase-line .item-price {
-    flex: 0 0 auto;
-    min-width: 80px;
-    text-align: right;
-    color: #222;
-    font-weight: 600;
-}.purchase-line:last-child {
-    border-bottom: none;
-}
-.list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.list li {
-    margin: 0;
-    padding: 0;
-}
-.list a {
-    display: block;
-    font-size: 1.4em;
-    color: #222;
-    text-decoration: none;
-    padding: 10px 0 10px 0;
-    text-align: center;
-    border-bottom: 1px solid #f0f0f0;
-    transition: background 0.2s;
-}
-.list a:hover {
-    background: #f5f5f5;
-}
-.list-store {
-    color: #888;
-    font-size: 0.95em;
-    flex: 0 0 auto;
-    min-width: 80px;
-    text-align: right;
-    margin-left: 8px;
-    display: inline-block;
-}
-.list-store-inline {
-    color: #888;
-    font-size: 1em;
-    margin-left: 4px;
-}
-.item-price {
-    flex: 0 0 auto;
-    min-width: 80px;
-    text-align: right;
-    color: #222;
-    font-weight: 600;
-}
-.form-row-flex {
-    display: flex;
-    gap: 12px;
-}
-.form-row-flex .form-col {
-    flex: 1 1 0;
-    display: flex;
-    flex-direction: column;
 }
 .placeholder-faded::placeholder {
     color: #bbb !important;

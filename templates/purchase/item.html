@@ -61,6 +61,8 @@
     <div class="footer-flex">
         {% if 구매['일련번호'] is defined %}
         <span class="footer-left footer-red clickable-item" onclick="if(confirm('정말 삭제하시겠습니까?')) { var f=document.getElementById('item-edit-form'); var d=document.createElement('input'); d.type='hidden'; d.name='delete'; d.value='1'; f.appendChild(d); f.submit(); } return false;">삭제</span>
+        {% else %}
+        <span class="footer-left"></span>
         {% endif %}
         <span class="footer-right footer-blue clickable-item" onclick="document.getElementById('item-edit-form').submit(); return false;">저장</span>
         <script src="{{ url_for('static', filename='js/item-calc.js') }}"></script>

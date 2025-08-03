@@ -8,21 +8,17 @@
 
 {% block main %}
     {% if 구매목록들 %}
-    <div>
-    {% for 구매목록 in 구매목록들 %}
-        <a href="{{ url_for('구매일자별_매장별_구매목록', date=구매목록['구매일자'], store_code=구매목록['매장번호']) }}" style="text-decoration:none;color:inherit;">
-            <div class="purchase-line">
+        {% for 구매목록 in 구매목록들 %}
+            <div class="purchase-line clickable-item" onclick="location.href='{{ url_for('구매일자별_매장별_구매목록', date=구매목록['구매일자'], store_code=구매목록['매장번호']) }}'">
                 <span class="item-name">
                     {{ 구매목록['구매일자'].split('-')[0] }}년 {{ 구매목록['구매일자'].split('-')[1]|int }}월 {{ 구매목록['구매일자'].split('-')[2]|int }}일
-                    <span class="list-store-inline">{{ 구매목록['매장명'] }}</span>
+                    <span class="item-store">{{ 구매목록['매장명'] }}</span>
                 </span>
                 <span class="item-price">
                     {{ "{:,}".format(구매목록['합계금액']|int) }}원
                 </span>
             </div>
-        </a>
-    {% endfor %}
-    </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}
 
