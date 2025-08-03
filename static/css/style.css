@@ -7,58 +7,81 @@ html, body {
 }
 body {
     height: 100vh;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
 }
-header.header {
+header, footer {
     position: fixed;
-    top: 0;
     left: 0;
     width: 100%;
     background: #fff;
     border-bottom: 1px solid #eee;
     z-index: 10;
-    padding: 2px 0 2px 0;
+    padding: 2px 0;
     display: flex;
     justify-content: space-around;
     min-height: 32px;
 }
-header.header h1 {
-    font-size: 1.4em;
-    margin: 0;
-    font-weight: 600;
-    padding: 4px 0 4px 0;
-    line-height: 1.25;
+header {
+    top: 0;
+    border-bottom: 1px solid #eee;
 }
-footer.footer {
-    position: fixed;
+footer {
     bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #fff;
     border-top: 1px solid #eee;
-    z-index: 10;
-    padding: 2px 0 2px 0;
-    display: flex;
-    justify-content: space-around;
-    min-height: 32px;
 }
-footer.footer h1 {
+header h1 {
     font-size: 1.4em;
     margin: 0;
     font-weight: 600;
-    padding: 4px 0 4px 0;
+    padding: 4px 0;
     line-height: 1.25;
 }
-.main-content.scroll-area {
+header h1 small {
+    font-size: 1em;
+}
+main {
     flex: 1 1 auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     margin-top: 40px;
     margin-bottom: 40px;
 }
+.clickable-item {
+    cursor: pointer;
+}
+.footer-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.footer-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer-left, .footer-right {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #222;
+}
+.footer-left {
+    padding-left: 8px;
+}
+.footer-right {
+    padding-right: 8px;
+}
+.footer-blue {
+    color: #007aff;
+}
+.footer-red {
+    color: #e74c3c;
+}
+.footer-faded {
+    color: #888;
+}
+/* 위쪽은 정리 완료 */
 .delete-btn {
     background: #ff4d4f;
     color: #fff;
@@ -184,26 +207,6 @@ footer.footer h1 {
     color: #222;
     font-weight: 600;
 }
-.footer-flex {
-    margin-top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-.footer-sum {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #007aff;
-    padding-left: 8px;
-}
-.footer-add {
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    color: #222;
-    padding-right: 8px;
-}
 .form-row-flex {
     display: flex;
     gap: 12px;
@@ -212,32 +215,6 @@ footer.footer h1 {
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
-}
-.footer-save {
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    color: #2d8cff;
-    padding-right: 8px;
-    text-decoration: none;
-}
-.footer-delete {
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    color: #e74c3c;
-    padding-left: 8px;
-    text-decoration: none;
-}
-.footer-link-save {
-    color: #2d8cff;
-    text-decoration: underline;
-    font-size: 1em;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
 }
 .placeholder-faded::placeholder {
     color: #bbb !important;

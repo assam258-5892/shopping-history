@@ -178,4 +178,4 @@ def 품목정보_API(code):
     return jsonify({'품목명': 품목['품목명'] if 품목 else None, '규격': 품목['규격'] if 품목 else None, '가격': 가격['가격'] if 가격 else None})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

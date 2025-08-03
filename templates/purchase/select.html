@@ -2,7 +2,7 @@
 {% block title %}구매목록추가{% endblock %}
 
 {% block header %}
-    <h1 style="cursor:pointer" onclick="location.href='/purchase'">
+    <h1 class="clickable-item" onclick="location.href='/purchase'">
         구매목록추가
     </h1>
 {% endblock %}
@@ -29,12 +29,12 @@
 {% endblock %}
 
 {% block footer %}
-    <div class="footer-flex">
+    <div class="footer-flex"> 
         <span></span>
-        <span class="footer-add" onclick="
+        <span class="footer-right" onclick="
           var d=document.getElementById('date').value;
           var s=document.getElementById('store_code').value;
-          if(d && s) location.href='/purchase/list/'+d+'/'+s;
+          if(d && s) location.href='{{ url_for('구매일자별_매장별_구매목록', date='dummy', store_code=0).rsplit('/', 2)[0] }}/'+d+'/'+s;
           else alert('날짜와 매장을 선택하세요.');
         ">구매목록</span>
     </div>

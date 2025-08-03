@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-    <h1 style="cursor:pointer" onclick="location.href='/purchase'">
+    <h1 class="clickable-item" onclick="location.href='/purchase'">
         {{ 구매일자.split('-')[0] }}년 {{ 구매일자.split('-')[1]|int }}월 {{ 구매일자.split('-')[2]|int }}일
         {% if 매장명 %}<span style="color:#888;font-size:0.95em;">({{ 매장명 }})</span>{% endif %}
     </h1>
@@ -33,9 +33,9 @@
 
 {% block footer %}
     <div class="footer-flex">
-        <span class="footer-sum">
+        <span class="footer-left footer-blue">
             합계: {{ '{:,}'.format(구매목록|sum(attribute='구매금액')|default(0)|int) }}원
         </span>
-        <span class="footer-add" style="cursor:pointer;" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호, item_id=0) }}'">품목추가</span>
+        <span class="footer-right clickable-item" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호, item_id=0) }}'">품목추가</span>
     </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block title %}구매목록{% endblock %}
 
 {% block header %}
-    <h1 style="cursor:pointer" onclick="location.href='/price'">구매목록</h1>
+    <h1 class="clickable-item" onclick="location.href='/price'">구매목록</h1>
 {% endblock %}
 
 
@@ -28,9 +28,9 @@
 
 {% block footer %}
     <div class="footer-flex">
-        <span class="footer-sum">
+        <span class="footer-left footer-blue">
             연간 합계: {{ '{:,}'.format(합계['연간합계']|default(0)) }}원
         </span>
-        <span class="footer-add" onclick="location.href='/purchase/select'">구매목록추가</span>
+        <span class="footer-right clickable-item" onclick="location.href='{{ url_for('날짜_매장_선택') }}'">구매목록추가</span>
     </div>
 {% endblock %}
