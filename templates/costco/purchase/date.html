@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "costco/base.html" %}
 {% block title %}
     {{ 구매일자.split('-')[0] }}년 {{ 구매일자.split('-')[1]|int }}월 {{ 구매일자.split('-')[2]|int }}일
     {% if 매장명 %} ({{ 매장명 }}){% endif %} 구매목록

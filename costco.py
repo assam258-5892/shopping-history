@@ -31,7 +31,7 @@ def 날짜_매장_선택():
     디비 = 데이터베이스_가져오기()
     매장목록 = 디비.execute('SELECT 번호, 매장명, 위도, 경도 FROM 매장 ORDER BY 번호').fetchall()
     오늘 = datetime.date.today().isoformat()
-    return render_template('purchase/select.html', 매장목록=매장목록, 오늘=오늘)
+    return render_template('costco/purchase/select.html', 매장목록=매장목록, 오늘=오늘)
 
 @costco_bp.route('/purchase')
 def 구매일자_목록():
@@ -51,7 +51,7 @@ def 구매일자_목록():
     ).fetchone()
     if 합계 is None:
         합계 = {'연간합계': 0}
-    return render_template('purchase/index.html', 구매목록들=구매목록들, 합계=합계)
+    return render_template('costco/purchase/index.html', 구매목록들=구매목록들, 합계=합계)
 
 @costco_bp.route('/purchase/list/<date>/<int:store_code>')
 def 구매일자별_매장별_구매목록(date, store_code):
@@ -64,7 +64,7 @@ def 구매일자별_매장별_구매목록(date, store_code):
     ''', (date, store_code)).fetchall()
     매장명 = 데이터베이스_가져오기().execute('SELECT 매장명 FROM 매장 WHERE 번호 = ?', (store_code,)).fetchone()
     매장명 = 매장명['매장명'] if 매장명 else ''
-    return render_template('purchase/date.html', 구매일자=date, 매장명=매장명, 구매목록=구매목록, 매장번호=store_code)
+    return render_template('costco/purchase/date.html', 구매일자=date, 매장명=매장명, 구매목록=구매목록, 매장번호=store_code)
 
 # 품목 상세/수정/신규 페이지 (item_id==0: 신규)
 @costco_bp.route('/purchase/item/<date>/<int:store_code>/<int:item_id>', methods=['GET', 'POST'])
@@ -118,7 +118,7 @@ def 품목_상세_수정(date, store_code, item_id):
         if not 구매:
             return '존재하지 않는 품목입니다.', 404
     구매자목록 = 디비.execute('SELECT 번호, 구매자명 FROM 구매 ORDER BY 구매자명').fetchall()
-    return render_template('purchase/item.html', 구매=구매, 구매자목록=구매자목록)
+    return render_template('costco/purchase/item.html', 구매=구매, 구매자목록=구매자목록)
 
 @costco_bp.route('/price')
 def 가격정보():
@@ -135,7 +135,7 @@ def 가격정보():
          GROUP BY 코드, 품목명, 규격
          ORDER BY 최신구매일자 DESC NULLS LAST, 최신일련번호 DESC NULLS LAST, 품목명
     ''').fetchall()
-    return render_template('price/index.html', 가격정보=가격정보)
+    return render_template('costco/price/index.html', 가격정보=가격정보)
 
 @costco_bp.route('/price/<int:item_code>')
 def 가격정보_상세(item_code):
@@ -149,7 +149,7 @@ def 가격정보_상세(item_code):
          ORDER BY 구매일자 DESC, 일련번호 DESC
     ''', (item_code,)).fetchall()
     품목 = 디비.execute('SELECT 품목명, 규격 FROM 품목 WHERE 코드 = ?', (item_code,)).fetchone()
-    return render_template('price/detail.html', 품목=품목, 기록=기록)
+    return render_template('costco/price/detail.html', 품목=품목, 기록=기록)
 
 @costco_bp.route('/api/item-name/<int:code>')
 def 품목정보_API(code):
