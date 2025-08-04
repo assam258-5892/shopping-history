@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}코스트코 구매 기록{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='costco/css/style.css') }}">
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -17,5 +17,6 @@
     <footer>
         {% block footer %}{% endblock %}
     </footer>
+    {% block js %}{% endblock %}
 </body>
 </html>

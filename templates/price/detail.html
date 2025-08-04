@@ -2,7 +2,12 @@
 {% block title %}{{ 품목['품목명'] }}{% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item" onclick="location.href='/price'"><small>{{ 품목['품목명'] }}</small></h1>
+    <h1 class="clickable-item" id="header-link"><small>{{ 품목['품목명'] }}</small></h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.가격정보') }}";
+        };
+    </script>
 {% endblock %}
 
 {% block main %}

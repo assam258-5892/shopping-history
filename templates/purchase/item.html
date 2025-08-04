@@ -5,11 +5,15 @@
 {% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item"
-        onclick="location.href='{{ url_for('구매일자별_매장별_구매목록', date=구매['구매일자'], store_code=구매['매장번호']) }}'">
+    <h1 class="clickable-item" id="header-link">
         {{ 구매['구매일자'].split('-')[0] }}년 {{ 구매['구매일자'].split('-')[1]|int }}월 {{ 구매['구매일자'].split('-')[2]|int }}일
         {% if 구매['매장명'] %}<span style="color:#888;font-size:0.95em;">({{ 구매['매장명'] }})</span>{% endif %}
     </h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.구매일자별_매장별_구매목록', date=구매['구매일자'], store_code=구매['매장번호']) }}";
+        };
+    </script>
 {% endblock %}
 
 {% block main %}
@@ -65,7 +69,10 @@
         <span class="footer-left"></span>
         {% endif %}
         <span class="footer-right footer-blue clickable-item" onclick="document.getElementById('item-edit-form').submit(); return false;">저장</span>
-        <script src="{{ url_for('static', filename='js/item-calc.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/item-autofill.js') }}"></script>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='costco/js/item-calc.js') }}"></script>
+    <script src="{{ url_for('static', filename='costco/js/item-autofill.js') }}"></script>
 {% endblock %}

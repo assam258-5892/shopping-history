@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         try {
-            const resp = await fetch(`/api/item-name/${encodeURIComponent(code)}`);
+            const resp = await fetch(`/costco/api/item-name/${encodeURIComponent(code)}`);
             if (resp.ok) {
                 const data = await resp.json();
                 if (data.품목명) {

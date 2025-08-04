@@ -2,14 +2,19 @@
 {% block title %}구매목록{% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item" onclick="location.href='/price'">구매목록</h1>
+    <h1 class="clickable-item" id="header-link">구매목록</h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.가격정보') }}";
+        };
+    </script>
 {% endblock %}
 
 
 {% block main %}
     {% if 구매목록들 %}
         {% for 구매목록 in 구매목록들 %}
-            <div class="purchase-line clickable-item" onclick="location.href='{{ url_for('구매일자별_매장별_구매목록', date=구매목록['구매일자'], store_code=구매목록['매장번호']) }}'">
+            <div class="purchase-line clickable-item" data-url="{{ url_for('costco.구매일자별_매장별_구매목록', date=구매목록['구매일자'], store_code=구매목록['매장번호']) }}">
                 <span class="item-name">
                     {{ 구매목록['구매일자'].split('-')[0] }}년 {{ 구매목록['구매일자'].split('-')[1]|int }}월 {{ 구매목록['구매일자'].split('-')[2]|int }}일
                     <span class="item-store">{{ 구매목록['매장명'] }}</span>
@@ -19,6 +24,13 @@
                 </span>
             </div>
         {% endfor %}
+        <script>
+            document.querySelectorAll('.purchase-line[data-url]').forEach(function(element) {
+                element.onclick = function() {
+                    location.href = this.getAttribute('data-url');
+                };
+            });
+        </script>
     {% endif %}
 {% endblock %}
 
@@ -27,6 +39,11 @@
         <span class="footer-left footer-blue">
             연간 합계: {{ '{:,}'.format(합계['연간합계']|default(0)) }}원
         </span>
-        <span class="footer-right clickable-item" onclick="location.href='{{ url_for('날짜_매장_선택') }}'">구매목록추가</span>
+        <span class="footer-right clickable-item" id="add-purchase-link">구매목록추가</span>
     </div>
+    <script>
+        document.getElementById('add-purchase-link').onclick = function() {
+            location.href = "{{ url_for('costco.날짜_매장_선택') }}";
+        };
+    </script>
 {% endblock %}

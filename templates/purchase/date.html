@@ -5,16 +5,21 @@
 {% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item" onclick="location.href='/purchase'">
+    <h1 class="clickable-item" id="header-link">
         {{ 구매일자.split('-')[0] }}년 {{ 구매일자.split('-')[1]|int }}월 {{ 구매일자.split('-')[2]|int }}일
         {% if 매장명 %}<span style="color:#888;font-size:0.95em;">({{ 매장명 }})</span>{% endif %}
     </h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.구매일자_목록') }}";
+        };
+    </script>
 {% endblock %}
     
 {% block main %}
     {% if 구매목록 %}
         {% for 구매 in 구매목록 %}
-            <div class="purchase-line" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}'" >
+            <div class="purchase-line" data-url="{{ url_for('costco.품목_상세_수정', date=구매일자, store_code=매장번호 if 매장번호 is defined else None, item_id=구매['일련번호']) }}">
                 <span class="item-name">
                     {{ 구매['품목명'] }}
                     {% if 구매['규격'] %}<span class="item-spec"> {{ 구매['규격'] }}</span>{% endif %}
@@ -22,6 +27,13 @@
                 <span class="item-price">{{ "{:,}".format(구매['구매금액']|int) }}원</span>
             </div>
         {% endfor %}
+        <script>
+            document.querySelectorAll('.purchase-line[data-url]').forEach(function(element) {
+                element.onclick = function() {
+                    location.href = this.getAttribute('data-url');
+                };
+            });
+        </script>
     {% else %}
         <p class="no-item">구매 내역이 없습니다.</p>
     {% endif %}
@@ -32,6 +44,11 @@
         <span class="footer-left footer-blue">
             합계: {{ '{:,}'.format(구매목록|sum(attribute='구매금액')|default(0)|int) }}원
         </span>
-        <span class="footer-right clickable-item" onclick="location.href='{{ url_for('품목_상세_수정', date=구매일자, store_code=매장번호, item_id=0) }}'">품목추가</span>
+        <span class="footer-right clickable-item" id="add-item-link">품목추가</span>
     </div>
+    <script>
+        document.getElementById('add-item-link').onclick = function() {
+            location.href = "{{ url_for('costco.품목_상세_수정', date=구매일자, store_code=매장번호, item_id=0) }}";
+        };
+    </script>
 {% endblock %}

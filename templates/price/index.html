@@ -2,12 +2,17 @@
 {% block title %}가격정보{% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item" onclick="location.href='/purchase'">가격정보</h1>
+    <h1 class="clickable-item" id="header-link">가격정보</h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.구매일자_목록') }}";
+        };
+    </script>
 {% endblock %}
 
 {% block main %}
     {% for 가격 in 가격정보 %}
-        <div class="purchase-line clickable-item" onclick="location.href='{{ url_for('가격정보_상세', item_code=가격['코드']) }}'">
+        <div class="purchase-line clickable-item" data-url="{{ url_for('costco.가격정보_상세', item_code=가격['코드']) }}">
             <span class="item-name">
                 {{ 가격['품목명'] }}
                 {% if 가격['규격'] %}<span class="item-spec"> {{ 가격['규격'] }}</span>{% endif %}
@@ -21,6 +26,13 @@
             </span>
         </div>
     {% endfor %}
+    <script>
+        document.querySelectorAll('.purchase-line[data-url]').forEach(function(element) {
+            element.onclick = function() {
+                location.href = this.getAttribute('data-url');
+            };
+        });
+    </script>
 {% endblock %}
 
 {% block footer %}{% endblock %}

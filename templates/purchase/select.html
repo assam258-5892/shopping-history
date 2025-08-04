@@ -2,9 +2,14 @@
 {% block title %}구매목록추가{% endblock %}
 
 {% block header %}
-    <h1 class="clickable-item" onclick="location.href='/purchase'">
+    <h1 class="clickable-item" id="header-link">
         구매목록추가
     </h1>
+    <script>
+        document.getElementById('header-link').onclick = function() {
+            location.href = "{{ url_for('costco.구매일자_목록') }}";
+        };
+    </script>
 {% endblock %}
 
 {% block main %}
@@ -31,12 +36,22 @@
 {% block footer %}
     <div class="footer-flex"> 
         <span></span>
-        <span class="footer-right" onclick="
-          var d=document.getElementById('date').value;
-          var s=document.getElementById('store_code').value;
-          if(d && s) location.href='{{ url_for('구매일자별_매장별_구매목록', date='dummy', store_code=0).rsplit('/', 2)[0] }}/'+d+'/'+s;
-          else alert('날짜와 매장을 선택하세요.');
-        ">구매목록</span>
+        <span class="footer-right" id="go-purchase-list">구매목록</span>
     </div>
-    <script src="{{ url_for('static', filename='js/select-nearest-store.js') }}"></script>
+    <script>
+        document.getElementById('go-purchase-list').onclick = function() {
+            var d = document.getElementById('date').value;
+            var s = document.getElementById('store_code').value;
+            if(d && s) {
+                var baseUrl = "{{ url_for('costco.구매일자별_매장별_구매목록', date='dummy', store_code=0).rsplit('/', 2)[0] }}";
+                location.href = baseUrl + '/' + d + '/' + s;
+            } else {
+                alert('날짜와 매장을 선택하세요.');
+            }
+        };
+    </script>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='costco/js/select-nearest-store.js') }}"></script>
 {% endblock %}
